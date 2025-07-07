@@ -66,13 +66,13 @@ function App() {
         <div className="input-group">
           <UserInput
             id="initialInvestment"
-            labelName="Initial Investment"
+            labelName="Initial Investment ($)"
             value={inputs.initialInvestment}
             onChange={handleChange}
           />
           <UserInput
             id="annualInvestment"
-            labelName="Annual Investement"
+            labelName="Annual Investement ($)"
             value={inputs.annualInvestment}
             onChange={handleChange}
           />
@@ -81,13 +81,13 @@ function App() {
         <div className="input-group">
           <UserInput
             id="expectedReturn"
-            labelName="Expected Return"
+            labelName="Expected Return (%)"
             value={inputs.expectedReturn}
             onChange={handleChange}
           />
           <UserInput
             id="duration"
-            labelName="Duration"
+            labelName="Duration (Years)"
             value={inputs.duration}
             onChange={handleChange}
           />
