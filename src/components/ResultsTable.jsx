@@ -1,7 +1,7 @@
 import { formatter } from '../util/investment.js';
 
-export default function ResultsTable({ data }) {
-    if (!data.length) return null;
+export default function ResultsTable({ output }) {
+    if (!output.length) return null;
 
     return (
         <table id="result">
@@ -15,13 +15,13 @@ export default function ResultsTable({ data }) {
                 </tr>
             </thead>
             <tbody>
-                {data.map(row => (
+                {output.map(row => (
                     <tr key={row.year}>
                         <td className="center">{row.year}</td>
-                        <td>{formatter.format(row.investmentValue)}</td>
-                        <td>{formatter.format(row.interest)}</td>
-                        <td>{formatter.format(row.totalInterest)}</td>
-                        <td>{formatter.format(row.investedCapital)}</td>
+                        <td>{row.investmentValue}</td>
+                        <td>{row.interest}</td>
+                        <td>{row.totalInterest}</td>
+                        <td>{row.investedCapital}</td>
                     </tr>
                 ))}
             </tbody>

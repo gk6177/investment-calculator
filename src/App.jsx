@@ -13,13 +13,23 @@ const INITIAL_INPUTS = {
 };
 
 function App() {
-  const [inputs, setInputs] = useState(INITIAL_INPUTS);
+  const [input, setInput] = useState(INITIAL_INPUTS);
 
   function handleChange(identifier, newValue) {
-    setInputs(prev => ({ ...prev, [identifier]: newValue }));
+    setInput(prev => ({ ...prev, [identifier]: newValue }));
   }
 
-  console.log(inputs);
+  console.log(input);
+
+  const numericInputs = useMemo(
+    () => ({
+      initialInvestment: +input.initialInvestment,
+      annualInvestment: +input.annualInvestment,
+      expectedReturn: +input.expectedReturn,
+      duration: +input.duration,
+    }),
+    [input]
+  );
 
   function buildResultsTable(rows, initialInvestment) {
     let runningInterest = 0;
@@ -34,23 +44,15 @@ function App() {
 
       return {
         year: row.year,
-        investmentValue: endValue,
-        interest,
-        totalInterest: runningInterest,
-        investedCapital: initial + annualInvest * row.year,
+        investmentValue: formatter.format(endValue),
+        interest: formatter.format(interest),
+        totalInterest: formatter.format(runningInterest),
+        investedCapital: formatter.format(initial + annualInvest * row.year),
       };
     });
   }
 
-  const numericInputs = useMemo(
-    () => ({
-      initialInvestment: +inputs.initialInvestment,
-      annualInvestment: +inputs.annualInvestment,
-      expectedReturn: +inputs.expectedReturn,
-      duration: +inputs.duration,
-    }),
-    [inputs]
-  );
+
 
   const rawRows = calculateInvestmentResults(numericInputs);
   const resultsTable = buildResultsTable(rawRows, numericInputs.initialInvestment);
@@ -61,40 +63,8 @@ function App() {
   return (
     <>
       <Header />
-      <div id="user-input">
-
-        <div className="input-group">
-          <UserInput
-            id="initialInvestment"
-            labelName="Initial Investment ($)"
-            value={inputs.initialInvestment}
-            onChange={handleChange}
-          />
-          <UserInput
-            id="annualInvestment"
-            labelName="Annual Investement ($)"
-            value={inputs.annualInvestment}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="input-group">
-          <UserInput
-            id="expectedReturn"
-            labelName="Expected Return (%)"
-            value={inputs.expectedReturn}
-            onChange={handleChange}
-          />
-          <UserInput
-            id="duration"
-            labelName="Duration (Years)"
-            value={inputs.duration}
-            onChange={handleChange}
-          />
-        </div>
-
-      </div >
-      <ResultsTable data={resultsTable} />
+      <UserInput input={input} onChange={handleChange} />
+      <ResultsTable output={resultsTable} />
     </>
   )
 }
